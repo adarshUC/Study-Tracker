@@ -8,35 +8,26 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      // Custom plugin to handle source map requests
       {
         name: 'handle-source-map-requests',
         apply: 'serve',
         configureServer(server) {
           server.middlewares.use((req, res, next) => {
             if (req.url && req.url.endsWith('.map')) {
-              const cleanUrl = req.url.split('?')[0];
-              req.url = cleanUrl;
+              req.url = req.url.split('?')[0];
             }
             next();
           });
         },
       },
-      // Custom plugin to add CORS headers
       {
         name: 'add-cors-headers',
         apply: 'serve',
         configureServer(server) {
           server.middlewares.use((req, res, next) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader(
-              'Access-Control-Allow-Methods',
-              'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-            );
-            res.setHeader(
-              'Access-Control-Allow-Headers',
-              'Content-Type, Authorization, X-Requested-With',
-            );
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
             if (req.method === 'OPTIONS') {
               res.statusCode = 204;
@@ -47,7 +38,7 @@ export default defineConfig(({ mode }) => {
           });
         },
       },
-    ].filter(Boolean),
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './client/src'),
@@ -55,19 +46,15 @@ export default defineConfig(({ mode }) => {
     },
     root: path.join(process.cwd(), 'client'),
     build: {
-      outDir: path.join(process.cwd(), 'dist/public'),
+      outDir: 'dist', // Vercel expects this inside /client
       emptyOutDir: true,
       rollupOptions: {
-        input: {
-          main: path.resolve(__dirname, 'client/index.html'),
-        }
+        input: path.resolve(__dirname, 'client/index.html'),
       },
-      // Better build for offline support
       sourcemap: false,
       minify: 'esbuild',
-      target: 'es2015'
+      target: 'es2015',
     },
-    clearScreen: false,
     server: {
       hmr: {
         overlay: false,
@@ -89,9 +76,9 @@ export default defineConfig(({ mode }) => {
     esbuild: {
       sourcemap: true,
     },
-    // PWA configuration
     define: {
       'process.env.NODE_ENV': JSON.stringify(mode),
     },
+    clearScreen: false,
   };
 });
