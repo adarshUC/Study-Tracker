@@ -1,0 +1,39 @@
+import * as React from 'react';
+import { ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+const EMBED_URL = 'https://d6cu4z.mimo.run/';
+
+export function EmbedContainer() {
+  const [failed, setFailed] = React.useState(false);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground truncate">{EMBED_URL}</p>
+        <Button variant="outline" size="sm" asChild>
+          <a href={EMBED_URL} target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="h-4 w-4 mr-1" />
+            Open in new tab
+          </a>
+        </Button>
+      </div>
+
+      {failed ? (
+        <div className="border rounded-lg p-8 text-center text-sm text-muted-foreground">
+          This site can't be embedded here (it blocks being shown in an iframe).
+          Use "Open in new tab" above instead.
+        </div>
+      ) : (
+        <iframe
+          src={EMBED_URL}
+          title="Embedded site"
+          className="w-full rounded-lg border"
+          style={{ height: '70vh' }}
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </div>
+  );
+}
