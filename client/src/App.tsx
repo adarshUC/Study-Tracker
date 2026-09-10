@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { Navigation } from './components/navigation/Navigation';
+import { EmbedContainer } from './components/embed/EmbedContainer';
 import { DailyPlanner } from './components/planner/DailyPlanner';
 import { CalendarContainer } from './components/calendar/CalendarContainer';
 import { TaskDump } from './components/tasks/TaskDump';
@@ -11,7 +12,7 @@ import { TimerContainer } from './components/timer/TimerContainer';
 import { StopwatchContainer } from './components/stopwatch/StopwatchContainer';
 import { AlarmContainer } from './components/alarm/AlarmContainer';
 
-type Section = 'planner' | 'calendar' | 'tasks' | 'timer' | 'stopwatch' | 'alarms';
+type Section = 'planner' | 'calendar' | 'tasks' | 'timer' | 'stopwatch' | 'alarms' | 'embed';
 
 interface Timer {
   id: string;
@@ -514,6 +515,8 @@ function App() {
         return <StopwatchContainer />;
       case 'alarms':
         return <AlarmContainer />;
+      case 'embed':
+        return <EmbedContainer />;
       default:
         return <DailyPlanner />;
     }
