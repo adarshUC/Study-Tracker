@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
-import { Calendar, CheckSquare, Clock, Timer, Play, Bell } from 'lucide-react';
+import { Calendar, CheckSquare, Clock, Timer, Play, Bell, Globe } from 'lucide-react';
 
 interface NavigationProps {
   activeSection: string;
-  onSectionChange: (section: 'planner' | 'calendar' | 'tasks' | 'timer' | 'stopwatch' | 'alarms') => void;
+  onSectionChange: (section: 'planner' | 'calendar' | 'tasks' | 'timer' | 'stopwatch' | 'alarms' | 'embed') => void;
 }
 
 export function Navigation({ activeSection, onSectionChange }: NavigationProps) {
@@ -15,6 +15,7 @@ export function Navigation({ activeSection, onSectionChange }: NavigationProps) 
     { id: 'timer', label: 'Timer', icon: Timer },
     { id: 'stopwatch', label: 'Stopwatch', icon: Play },
     { id: 'alarms', label: 'Alarms', icon: Bell },
+    { id: 'embed', label: 'Embed', icon: Globe },
   ] as const;
 
   return (
